@@ -112,6 +112,7 @@ if (!content.includes(target)) {
   process.exit(1);
 }
 
+
 content = content.replace(target, replacement);
 fs.writeFileSync(file, content, 'utf8');
 console.log("Successfully optimized userscript.js");
