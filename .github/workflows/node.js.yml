@@ -43,10 +43,10 @@ jobs:
           
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile --ignore-workspace
+        run: pnpm install --no-frozen-lockfile --ignore-workspace --shamefully-hoist
 
       - name: Build site
-        run: NODE_ENV="production" ./node_modules/.bin/webpack --bail
+        run: NODE_ENV="production" NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider" ./node_modules/.bin/webpack --bail
         
       - name: Upload artifact 
         uses: actions/upload-pages-artifact@v3
