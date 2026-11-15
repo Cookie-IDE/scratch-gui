@@ -82,6 +82,8 @@ const filterAddonsBySupport = () => {
     for (const [id, manifest] of Object.entries(importedAddons)) {
         if (manifest.unsupported) {
             unsupported[id] = manifest;
+        } else if (manifest.hidden || id === 'debugger') {
+            continue;
         } else {
             supported[id] = manifest;
         }
@@ -128,10 +130,10 @@ const groupedAddons = groupAddons();
 
 const getInitialSearch = () => {
     const hash = location.hash.substring(1);
-    
+
     // If the query is an addon ID, it's a better user experience to show the name of the addon
     // in the search bar instead of a ID they won't understand.
-    if (Object.prototype.hasOwnProperty.call(importedAddons, hash)) {
+    if (Object.prototype.hasOwnProperty.call(importedAddons, hash) && hash !== 'debugger' && !importedAddons[hash]?.hidden) {
         const manifest = importedAddons[hash];
         return addonTranslations[`${hash}/@name`] || manifest.name;
     }
@@ -1126,7 +1128,7 @@ class AddonSettingsComponent extends React.Component {
                             <div className={styles.warning}>
                                 <div className={styles.section}>
                                     <div className={styles.warningBox}>
-                                        PenguinMod is no longer supporting addons in favour of Editor Settings.
+                                        Cookie IDE is no longer supporting addons in favour of Editor Settings.
                                         While we continue work on Editor Settings, addons will still be available, but are not guaranteed to work as they should.
                                         Use at your own discretion.
                                     </div>

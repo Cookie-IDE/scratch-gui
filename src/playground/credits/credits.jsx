@@ -64,6 +64,10 @@ const Credits = () => (
                 The {APP_NAME} project is made possible by the work of many volunteers.
             </p>
         </section>
+        <section>
+            <h2>Developer</h2>
+            <UserList users={UserData.dev} />
+        </section>
         {APP_NAME !== 'TurboWarp' && (
             // Be kind and considerate. Don't remove this :)
             <section>

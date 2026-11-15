@@ -27,6 +27,7 @@ const isTrustedExtension = url => (
     // Always trust our official extension repostiory.
     url.startsWith('https://extensions.turbowarp.org') ||
     url.startsWith('https://extensions.penguinmod.com') ||
+    url.startsWith('https://aftercode-official.github.io/Aftercode-extensions') ||
 
     /* Trust other people's galleries. These can be removed in the future, they will just show a pop-up on load if they are */
     url.startsWith('https://sharkpools-extensions.vercel.app') || // SharkPool

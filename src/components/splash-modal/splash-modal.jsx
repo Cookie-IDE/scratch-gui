@@ -48,6 +48,7 @@ const SplashModalComponent = props => (
                     />
                 </a>
             </Box>
+            {/*
             <Box className={styles.column}>
                 <a href={HOME_SITE} target="_blank">
                     <FormattedMessage
@@ -71,6 +72,7 @@ const SplashModalComponent = props => (
                     />
                 </a>
             </Box>
+            */}
             <span className={styles.version}>v{props.vm.runtime.pmVersion.toString()}</span>
         </Box>
     </Modal>

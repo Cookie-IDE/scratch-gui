@@ -2,6 +2,7 @@ import defaultsDeep from 'lodash.defaultsdeep';
 
 import * as accentPurple from './accent/purple';
 import * as accentBlue from './accent/blue';
+import * as accentBrown from './accent/brown';
 import * as accentRed from './accent/red';
 import * as accentCyan from './accent/cyan';
 import * as accentGreen from './accent/green';
@@ -18,6 +19,7 @@ import * as blocksDark from './blocks/dark';
 
 const ACCENT_PURPLE = 'purple';
 const ACCENT_BLUE = 'blue';
+const ACCENT_BROWN = 'brown';
 const ACCENT_RED = 'red';
 const ACCENT_CYAN = 'cyan';
 const ACCENT_GREEN = 'green';
@@ -26,13 +28,14 @@ const ACCENT_RAINBOW = 'rainbow';
 const ACCENT_MAP = {
     [ACCENT_PURPLE]: accentPurple,
     [ACCENT_BLUE]: accentBlue,
+    [ACCENT_BROWN]: accentBrown,
     [ACCENT_RED]: accentRed,
     [ACCENT_CYAN]: accentCyan,
     [ACCENT_GREEN]: accentGreen,
     [ACCENT_ORANGE]: accentOrange,
     [ACCENT_RAINBOW]: accentRainbow
 };
-const ACCENT_DEFAULT = ACCENT_CYAN;
+const ACCENT_DEFAULT = ACCENT_BROWN;
 
 const GUI_LIGHT = 'light';
 const GUI_DARK = 'dark';
@@ -154,7 +157,7 @@ class Theme {
 
 export {
     Theme,
-
+    ACCENT_BROWN,
     ACCENT_RED,
     ACCENT_PURPLE,
     ACCENT_BLUE,

@@ -1,5 +1,6 @@
 import messages from './tag-messages.js';
 export default [
+    {tag: 'ac', intlLabel: 'Cookie IDE'},
     {tag: 'scratch', intlLabel: 'Scratch'},
     {tag: 'pm', intlLabel: 'PenguinMod'},
     {tag: 'tw', intlLabel: 'TurboWarp'},

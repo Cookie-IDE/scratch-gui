@@ -20,7 +20,12 @@ const fromHardcoded = ({userID = '0', username}) => {
 };
 
 // The lists below are in no particular order.
-
+const dev = [
+    {
+        username: 'katboizz',
+        userID: '139855183'
+    }
+].map(fromHardcoded);
 const contributors = [
     {
         userID: '41219524',
@@ -385,5 +390,6 @@ export default {
     contributors: shuffle(contributors),
     addonDevelopers: shuffle(addonDevelopers),
     extensionDevelopers: shuffle(extensionDevelopers),
-    docs: shuffle(docs)
+    docs: shuffle(docs),
+    dev: shuffle(dev)
 };

@@ -55,7 +55,9 @@ import returnIcon from './custom/return.svg';
 import galleryIcon from './gallery/gallery.svg';
 
 import sharkpoolGalleryIcon from './sharkpool-gallery/gallery.svg';
+import CookieIDEGalleryIcon from './CookieIDE/gallery.svg';
 import { EXTENSIONS_SITE } from '../../brand';
+import { name } from 'bowser';
 
 export default [
     {
@@ -1081,12 +1083,30 @@ export const penguinmodGalleryExtra = [
     {
         name: (
             <FormattedMessage
-                defaultMessage="{APP_NAME} Extension Gallery"
-                description="Name of extensions.turbowarp.org in extension library"
-                id="tw.extensionGallery.name"
-                values={{
-                    APP_NAME: 'PenguinMod'
-                }}
+                defaultMessage="Cookie IDE Extension Gallery"
+                description="Name of Cookie IDE in extension library"
+                id="pm.gui.extension.CookieIDEGallery.name"
+            />
+        ),
+        href: 'https://aftercode-official.github.io/Aftercode-extensions/',
+        extensionId: '',
+        iconURL: CookieIDEGalleryIcon,
+        description: (
+            <FormattedMessage
+                defaultMessage="See some user-submitted extensions at cookieide.github.io/extensions/"
+                description="Description for the Cookie IDE extra extension gallery"
+                id="pm.gui.extension.CookieIDEGallery.description"
+            />
+        ),
+        tags: ['library'],
+        featured: true
+    },
+    {
+        name: (
+            <FormattedMessage
+                defaultMessage="Penguinmod Extension Gallery"
+                description="Name of extensions.penguinmod.com in extension library"
+                id="pm.gui.extension.extraGallery.name"
             />
         ),
         href: EXTENSIONS_SITE,

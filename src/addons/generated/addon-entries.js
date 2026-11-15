@@ -65,4 +65,5 @@ export default {
   "tw-remove-feedback": () => import(/* webpackChunkName: "addon-entry-tw-remove-feedback" */ "../addons/tw-remove-feedback/_runtime_entry.js"),
   "tw-disable-vibration": () => import(/* webpackChunkName: "addon-entry-tw-disable-vibration" */ "../addons/tw-disable-vibration/_runtime_entry.js"),
   "tw-disable-cloud-variables": () => import(/* webpackChunkName: "addon-entry-tw-disable-cloud-variables" */ "../addons/tw-disable-cloud-variables/_runtime_entry.js"),
+  "debugger": () => import(/* webpackChunkName: "addon-entry-debugger" */ "../addons/debugger/_runtime_entry.js"),
 };

@@ -63,6 +63,7 @@ import _tw_remove_backpack from "../addons/tw-remove-backpack/_manifest_entry.js
 import _tw_remove_feedback from "../addons/tw-remove-feedback/_manifest_entry.js";
 import _tw_disable_vibration from "../addons/tw-disable-vibration/_manifest_entry.js";
 import _tw_disable_cloud_variables from "../addons/tw-disable-cloud-variables/_manifest_entry.js";
+import _debugger from "../addons/debugger/_manifest_entry.js";
 export default {
   "cat-blocks": _cat_blocks,
   "editor-devtools": _editor_devtools,
@@ -128,4 +129,5 @@ export default {
   "tw-remove-feedback": _tw_remove_feedback,
   "tw-disable-vibration": _tw_disable_vibration,
   "tw-disable-cloud-variables": _tw_disable_cloud_variables,
+  "debugger": _debugger,
 };

@@ -1,7 +1,7 @@
 // Legacy export format because this is used by some build-time scripts stuck in the past.
 // eslint-disable-next-line import/no-commonjs
 module.exports = {
-    APP_NAME: 'PenguinMod',
+    APP_NAME: 'Cookie IDE',
 
     API_SITE: 'https://projects.penguinmod.com',
     ASSET_CDN_SITE: 'https://asset-cdn.penguinmod.com',
@@ -10,4 +10,5 @@ module.exports = {
     HOME_SITE: 'https://penguinmod.com',
     LIBRARY_API_SITE: 'https://library.penguinmod.com',
     WIKI_SITE: 'https://wiki.penguinmod.com'
+
 };

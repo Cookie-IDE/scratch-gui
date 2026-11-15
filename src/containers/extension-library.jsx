@@ -54,6 +54,7 @@ const translateGalleryItem = (extension, locale) => ({
 
 let cachedGallery = null;
 let cachedPmGallery = null;
+let cachedAcGallery = null;
 let externalGalleryListenerAttached = false;
 
 const fetchLibrary = async () => {
@@ -108,6 +109,43 @@ const fetchPenguinmodLibrary = async () => {
     }))
 };
 
+const AFTERCODE_EXTENSIONS_BASE = 'https://aftercode-official.github.io/Aftercode-extensions';
+
+const fetchCookieideLibrary = async () => {
+    const res = await fetch(`${AFTERCODE_EXTENSIONS_BASE}/generated-metadata/extensions-v0.json`);
+    if (!res.ok) {
+        throw new Error(`HTTP status ${res.status}`);
+    }
+    const data = await res.json();
+    return data.extensions.map(extension => ({
+        name: extension.name,
+        nameTranslations: extension.nameTranslations || {},
+        description: extension.description,
+        descriptionTranslations: extension.descriptionTranslations || {},
+        extensionId: extension.id,
+        extensionURL: `${AFTERCODE_EXTENSIONS_BASE}/${extension.slug}.js`,
+        iconURL: `${AFTERCODE_EXTENSIONS_BASE}/${extension.image || 'images/unknown.svg'}`,
+        tags: [],
+        credits: [
+            ...(extension.original || []),
+            ...(extension.by || [])
+        ].map(credit => credit.name),
+        docsURI: extension.docs ? `${AFTERCODE_EXTENSIONS_BASE}/${extension.slug}` : null,
+        samples: extension.samples ? extension.samples.map(sample => ({
+            href: `${process.env.ROOT}editor?project_url=${AFTERCODE_EXTENSIONS_BASE}/samples/${encodeURIComponent(sample)}.sb3`,
+            text: sample
+        })) : null,
+        incompatibleWithScratch: !extension.scratchCompatible,
+        featured: true
+    }))
+        .map(extension => twLibraryMixin[extension.extensionId] ?
+            {...extension, ...twLibraryMixin[extension.extensionId]} :
+            (console.debug(`no mixin for ${extension.extensionId}`) || extension)
+        )
+        .map(extension => ({...extension, tags: [...extension.tags, "ac"]}))
+        .filter(extension => !extension.hide);
+};
+
 class ExtensionLibrary extends React.PureComponent {
     constructor (props) {
         super(props);
@@ -121,7 +159,8 @@ class ExtensionLibrary extends React.PureComponent {
             galleryError: null,
             galleryTimedOut: false,
 
-            pmGallery: cachedPmGallery
+            pmGallery: cachedPmGallery,
+            acGallery: cachedAcGallery
         };
     }
     componentDidMount () {
@@ -160,6 +199,18 @@ class ExtensionLibrary extends React.PureComponent {
                     });
                 });
         }
+        if (!this.state.acGallery) {
+            fetchCookieideLibrary()
+                .then(gallery => {
+                    cachedAcGallery = gallery;
+                    this.setState({
+                        acGallery: gallery
+                    });
+                })
+                .catch(error => {
+                    log.error(error);
+                });
+        }
     }
     handleItemSelect (item) {
         if (item.href) {
@@ -192,7 +243,7 @@ class ExtensionLibrary extends React.PureComponent {
     async wrapperEventHandler(e) {
         /**
          * External gallery support.
-         * 
+         *
          * Supports galleries outside the editor to automatically load extensions without
          * having to manually input the extension code.
          */
@@ -295,6 +346,15 @@ class ExtensionLibrary extends React.PureComponent {
             } else {
                 library.push(toLibraryItem(galleryLoading));
             }
+        }
+        if (this.state.acGallery) {
+            library.push('---');
+            const locale = this.props.intl.locale;
+            library.push(
+                ...this.state.acGallery
+                    .map(i => translateGalleryItem(i, locale))
+                    .map(toLibraryItem)
+            );
         }
 
         return (
