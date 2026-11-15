@@ -1,3 +1,5 @@
+name: Build, Deploy & Release
+
 on:
   workflow_dispatch:
     inputs:
@@ -23,44 +25,59 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v6-beta
-    - name: Setup GitHub Pages
-      uses: actions/configure-pages@v5.0.0
-      
-    - name: Install pnpm
-      uses: pnpm/action-setup@v4
-      with:
-        version: 12
-    - name: Install Node.js
-      uses: actions/setup-node@v6.0.0
-      with:
-        node-version: 24
-        cache: 'pnpm'
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: pnpm up && pnpm i --frozen-lockfile
-    - name: Build site
-      run: NODE_ENV="production" pnpm exec webpack --bail
-      
-    - name: Upload artifact 
-      uses: actions/upload-pages-artifact@v4.0.0
-      with:
-        path: ./build/
-    - name: Deploy to GitHub Pages
-      if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/develop' && inputs.semver
-      uses: actions/deploy-pages@v4.0.5
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+        
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
-    - name: Make zip for release
-      if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/develop' && inputs.semver
-      run: |
-        cd ./build/
-        zip -r ../penguinmod-v${{ inputs.semver }}.zip .
-    - name: Create release
-      if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/develop' && inputs.semver
-      uses: ncipollo/release-action@v1.21.0
-      with:
-        tag: "v${{ inputs.semver }}"
-        name: "v${{ inputs.semver }}"
-        commit: develop
-        artifacts: "penguinmod-v${{ inputs.semver }}.zip"
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Build site
+        run: NODE_ENV="production" pnpm exec webpack --bail
+        
+      - name: Upload artifact 
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build/
+
+      # Chỉ tạo file zip và Release khi chạy tay và có nhập semver
+      - name: Make zip for release
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/develop' && inputs.semver != ''
+        run: |
+          cd ./build/
+          zip -r ../penguinmod-v${{ inputs.semver }}.zip .
+
+      - name: Create release
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/develop' && inputs.semver != ''
+        uses: ncipollo/release-action@v1.21.0
+        with:
+          tag: "v${{ inputs.semver }}"
+          name: "v${{ inputs.semver }}"
+          commit: develop
+          artifacts: "penguinmod-v${{ inputs.semver }}.zip"
+
+  deploy:
+    # Tự động deploy khi push lên develop hoặc khi chạy tay trên nhánh develop
+    if: github.ref == 'refs/heads/develop' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
