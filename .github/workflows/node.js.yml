@@ -9,7 +9,7 @@ on:
         required: false
   push:
     branches:
-      - develop
+      - main
   pull_request:
 
 permissions:
@@ -53,25 +53,25 @@ jobs:
         with:
           path: ./build/
 
-      # Chỉ tạo file zip và Release khi chạy tay và có nhập semver
+      # Chỉ tạo file zip và Release khi chạy tay trên nhánh main và có nhập semver
       - name: Make zip for release
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/develop' && inputs.semver != ''
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.semver != ''
         run: |
           cd ./build/
           zip -r ../penguinmod-v${{ inputs.semver }}.zip .
 
       - name: Create release
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/develop' && inputs.semver != ''
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.semver != ''
         uses: ncipollo/release-action@v1.21.0
         with:
           tag: "v${{ inputs.semver }}"
           name: "v${{ inputs.semver }}"
-          commit: develop
+          commit: main
           artifacts: "penguinmod-v${{ inputs.semver }}.zip"
 
   deploy:
-    # Tự động deploy khi push lên develop hoặc khi chạy tay trên nhánh develop
-    if: github.ref == 'refs/heads/develop' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    # Tự động deploy khi push lên main hoặc khi chạy tay trên nhánh main
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: build
     runs-on: ubuntu-latest
     environment:
