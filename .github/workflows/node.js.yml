@@ -46,7 +46,7 @@ jobs:
         run: pnpm install --no-frozen-lockfile --ignore-workspace
 
       - name: Build site
-        run: NODE_ENV="production" pnpm exec webpack --bail
+        run: NODE_ENV="production" ./node_modules/.bin/webpack --bail
         
       - name: Upload artifact 
         uses: actions/upload-pages-artifact@v3
