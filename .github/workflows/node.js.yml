@@ -53,7 +53,7 @@ jobs:
         with:
           path: ./build/
 
-      # Chỉ tạo file zip và Release khi chạy tay trên nhánh main và có nhập semver
+      
       - name: Make zip for release
         if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.semver != ''
         run: |
@@ -70,7 +70,7 @@ jobs:
           artifacts: "penguinmod-v${{ inputs.semver }}.zip"
 
   deploy:
-    # Tự động deploy khi push lên main hoặc khi chạy tay trên nhánh main
+    
     if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: build
     runs-on: ubuntu-latest
