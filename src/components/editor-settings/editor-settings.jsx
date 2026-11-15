@@ -31,10 +31,6 @@ const messages = defineMessages({
         defaultMessage: 'Sound',
         id: 'pm.gui.editorSettings.sound'
     },
-    debugger: {
-        defaultMessage: 'Debugger',
-        id: 'pm.gui.editorSettings.debugger'
-    },
     misc: {
         defaultMessage: 'Miscellaneous',
         id: 'pm.gui.editorSettings.misc'
@@ -122,25 +118,6 @@ class EditorSettingsModal extends React.Component {
                     title: this.props.intl.formatMessage(messages.sound),
                     content: <React.Fragment>
                         <settings.soundDisplayDetail />
-                    </React.Fragment>
-                },
-                {
-                    title: this.props.intl.formatMessage(messages.debugger),
-                    content: <React.Fragment>
-                        <settings.projectDebugger />
-                        <Separator />
-                        <settings.debuggerLogClearGreenflag />
-                        <settings.debuggerLogGreenflag />
-                        <settings.debuggerLogCloneCreate />
-                        <settings.debuggerLogFailedCloneCreation />
-                        <settings.debuggerLogBroadcasts />
-                        <settings.debuggerLogMaxListLength />
-                        <settings.debuggerLogInvalidCloudData />
-                        <Separator />
-                        <settings.debuggerFancyGraphs />
-                        <Separator />
-                        <settings.debuggerAutoStopTiming />
-                        <settings.debuggerShowRatioTime />
                     </React.Fragment>
                 },
                 {
